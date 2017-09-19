@@ -1,20 +1,21 @@
   
+
+
+ 
+  $(document).ready(function(){
+    displayTime();
+
+      // calculating current time
   function displayTime(){
-    var time = moment().format("HH:mm:ss");
+    var time = moment().format("HH:mm");
     $("#timeNow").html("<h3>Time Now:" + time+ "</h3>");
     setTimeout(displayTime,1000);
   }
 
-  // calculating current time
-  $(document).ready(function(){
-    displayTime();
-  });
 
-  
-  
-    
 
-  // Initialize Firebase
+
+    // Initialize Firebase
   var config = {
     apiKey: "AIzaSyB5RKIANHycyb9v1uqTGZT7MCUCEkDcADk",
     authDomain: "trainscheduller.firebaseapp.com",
@@ -65,6 +66,22 @@
     });
 
 
+      // Calculating Next Arrival Time and MinutesTo Arrival
+  var now = moment().format("HH:mm"); //currentTime
+  var freq = frequency; //Arrival frequency
+  var nextArrivalTime=moment().startOf(now).add(freq, 'minutes').format("HH:mm");
+  console.log(nextArrivalTime);
+
+  var firstArrival = $("#firstTrainTime").val().trim(); //first Arrival Time
+  var timeDiff = moment.utc(moment(now, "HH:mm").diff(moment(firstArrival, "HH:mm"))).format("HH:mm");
+  var d = moment.duration(timeDiff, "minutes").asMinutes(); //time difference converted to minutes
+  console.log(d);
+
+  var minsToArrival=freq - d%freq;
+  console.log(minsToArrival);
+
+
+
     // trainDB.ref().on("value", function(snapshot){
     //   console.log(snapshot.val());
     // })
@@ -75,7 +92,7 @@
     // })
 
     //this code dynamically updates the schedule Table anytime the Employee Details form is filled and submitted
-    $("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+frequency+"</td>''<td>"+frequency+"</td>'</tr>");
+    $("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
 
 
     //this code will clear the form after clicking sunmit
@@ -87,3 +104,10 @@
     
 
   })
+
+  });
+
+  
+  
+    
+
