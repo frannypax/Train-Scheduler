@@ -65,20 +65,20 @@
 
     });
 
+    //Calculating Next Arrival Time and Minutes to Arrival
+    var freq = frequency; //arrival frequency
+    var firstTime = output;  //referencing from line 53
+    console.log(output);
 
-      // Calculating Next Arrival Time and MinutesTo Arrival
-  var now = moment().format("HH:mm"); //currentTime
-  var freq = frequency; //Arrival frequency
-  var nextArrivalTime=moment().startOf(now).add(freq, 'minutes').format("HH:mm");
-  console.log(nextArrivalTime);
+    var timeNow = moment().format("HH:mm");
 
-  var firstArrival = $("#firstTrainTime").val().trim(); //first Arrival Time
-  var timeDiff = moment.utc(moment(now, "HH:mm").diff(moment(firstArrival, "HH:mm"))).format("HH:mm");
-  var d = moment.duration(timeDiff, "minutes").asMinutes(); //time difference converted to minutes
-  console.log(d);
+    var timeDiff = moment.utc(moment(timeNow, "HH:mm").diff(moment(output, "HH:mm"))).format("HH:mm");// var timeDiff = moment().diff(moment(firstTime),"minutes");
+    var timeDiffInMins = moment.duration(timeDiff, 'minutes').asMinutes(); // timeDiff in Minutes
+    var tModulo = timeDiffInMins % freq; //this will help calculate mins to arrival
+    var minsToArrival = freq - tModulo;
 
-  var minsToArrival=freq - d%freq;
-  console.log(minsToArrival);
+    var nextArrivalTimeInMins = moment().add(minsToArrival, "minutes")
+    var nextArrivalTime = moment(nextArrivalTimeInMins).format("HH:mm"); //next arrival time in military time
 
 
 
