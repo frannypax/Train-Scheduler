@@ -1,18 +1,12 @@
-  
-
-
- 
   $(document).ready(function(){
     displayTime();
 
-      // calculating current time
+      // current time
   function displayTime(){
     var time = moment().format("HH:mm");
     $("#timeNow").html("<h3>Time Now:" + time+ "</h3>");
     setTimeout(displayTime,1000);
-  }
-
-
+  };
 
 
     // Initialize Firebase
@@ -36,7 +30,7 @@
   
 
 
-  $("#submit").on("click", function(){
+  $("#submit").on("click", function(event){
     event.preventDefault();
 
     //code below prevent submission of an incomplete form (i.e. All input fields must be filled)
@@ -50,10 +44,7 @@
     destination=$("#destination").val().trim();
     frequency=$("#frequency").val().trim();
     firstTrainTime=$("#firstTrainTime").val().trim();
-      var output = moment(firstTrainTime, "hh:mm A").format("HH:mm");
-      console.log(output);
-      firstTrainTime=output;
-      console.log(firstTrainTime); // lines 35-38 Used moments js to convert firstTrainTime to military 
+    
 
     
     // Pushing each entry into firebase
@@ -61,14 +52,32 @@
       trainName:trainName,
       destination:destination,
       frequency:frequency,
-      
+      firstTrainTime:firstTrainTime,
+      dateAdded:firebase.database.ServerValue.TIMESTAMP
 
     });
+       //this code will clear the form after clicking sunmit
+    $("#trainName").val("");
+    $("#destination").val("");
+    $("#frequency").val("");
+    $("#firstTrainTime").val("");
+
+  });
+
+  trainDB.ref().on("child_added", function(childSnapshot){
+      //store everything into a variable
+      var trainName = childSnapshot.val().trainName;
+      console.log(trainName);
+      var destination = childSnapshot.val().destination;
+      var frequency = childSnapshot.val().frequency;
+
+
+    var output = moment(firstTrainTime, "hh:mm A").format("HH:mm");
+    console.log(output);  // Used moment js to convert firstTrainTime to military 
 
     //Calculating Next Arrival Time and Minutes to Arrival
     var freq = frequency; //arrival frequency
     var firstTime = output;  //referencing from line 53
-    console.log(output);
 
     var timeNow = moment().format("HH:mm");
 
@@ -92,18 +101,12 @@
     // })
 
     //this code dynamically updates the schedule Table anytime the Employee Details form is filled and submitted
+    
     $("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
-
-
-    //this code will clear the form after clicking sunmit
-    trainName=$("#trainName").val("");
-    destination=$("#destination").val("");
-    frequency=$("#frequency").val("");
-    firstTrainTime=$("#firstTrainTime").val("");
-
     
 
-  })
+    })
+
 
   });
 
