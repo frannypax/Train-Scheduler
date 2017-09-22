@@ -3,8 +3,8 @@
 
       // current time
   function displayTime(){
-    var time = moment().format("HH:mm");
-    $("#timeNow").html("<h3>Time Now:" + time+ "</h3>");
+    var time = moment().format("HH:mm:ss");
+    $("#timeNow").html("<h3>Current Time:" + time+ "</h3>");
     setTimeout(displayTime,1000);
   };
 
@@ -53,10 +53,10 @@
       destination:destination,
       frequency:frequency,
       firstTrainTime:firstTrainTime,
-      dateAdded:firebase.database.ServerValue.TIMESTAMP
+      dateAdded:firebase.database.ServerValue.TIMESTAMP  //adding time of day when form was submitted
 
     });
-       //this code will clear the form after clicking sunmit
+       //clearing the form after clicking sunmit
     $("#trainName").val("");
     $("#destination").val("");
     $("#frequency").val("");
@@ -64,13 +64,13 @@
 
   });
 
-  trainDB.ref().on("child_added", function(childSnapshot){
+  trainDB.ref().on("child_added", function(childSnapshot, prevChildKey){
       //store everything into a variable
       var trainName = childSnapshot.val().trainName;
       console.log(trainName);
       var destination = childSnapshot.val().destination;
       var frequency = childSnapshot.val().frequency;
-
+      var firstTrainTime = childSnapshot.val().firstTrainTime;
 
     var output = moment(firstTrainTime, "hh:mm A").format("HH:mm");
     console.log(output);  // Used moment js to convert firstTrainTime to military 
@@ -102,8 +102,12 @@
 
     //this code dynamically updates the schedule Table anytime the Employee Details form is filled and submitted
     
-    $("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
     
+    function updateSchedule(){
+    	$("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
+    	setTimeout(updateSchedule,600000);
+    };
+    	updateSchedule();
 
     })
 
