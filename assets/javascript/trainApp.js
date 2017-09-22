@@ -4,7 +4,7 @@
       // current time
   function displayTime(){
     var time = moment().format("HH:mm:ss");
-    $("#timeNow").html("<h3>Current Time:" + time+ "</h3>");
+    $("#timeNow").html("<h4>Current Time: "+ time+ "</h4>");
     setTimeout(displayTime,1000);
   };
 
@@ -101,13 +101,8 @@
     // })
 
     //this code dynamically updates the schedule Table anytime the Employee Details form is filled and submitted
-    
-    
-    function updateSchedule(){
-    	$("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
-    	setTimeout(updateSchedule,600000);
-    };
-    	updateSchedule();
+    $("#scheduleTable").append("<tr>'<td>"+trainName+"</td>''<td>"+destination+"</td>''<td>"+frequency+"</td>''<td>"+nextArrivalTime+"</td>''<td>"+minsToArrival+"</td>'</tr>");
+    	
 
     })
 

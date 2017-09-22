@@ -28,7 +28,7 @@
 		   		<hr>
 		   		<div id= "timeNow">
 		   			
-		 			<h2>Time Now:</h2>
+		 			<h4>Current Time:</h4>
 		   		</div>
 	  		</div>
 		</div>
@@ -41,13 +41,16 @@
 			   	  
 			   	  	<!-- Table -->
 					<table class="table table-bordered" id="scheduleTable">
-					  	<tr>
-					  		<th>Train Name</th>
-					  		<th>Destination</th>
-					  		<th>Frequency (mins)</th>
-					  		<th>Next Arrival Time (Military Time)</th>
-					  		<th>Minutes to Arrival</th>
-					  	</tr>
+						<thead>
+						  	<tr>
+						  		<th>Train Name</th>
+						  		<th>Destination</th>
+						  		<th>Frequency (mins)</th>
+						  		<th>Next Arrival Time (Military Time)</th>
+						  		<th>Minutes to Arrival</th>
+						  	</tr>
+					  	</thead>
+					  	<tbody id="trains"></tbody>
 					</table>
 			 	</div>
 		  	</div>
